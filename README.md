@@ -17,3 +17,19 @@ C:\Viviane\Doutorado\SIG\BasesDadosAbio\GLODAP
 1.c) Subpasta: Data/Tabela contém todas as tabelas .csv geradas a partir de dados brutos. A planilha PresencaRodolitos derivou da planilha excel DadosRodolitos.xls (aba PresencaRodolitosOct19), salva em C:\Viviane\Doutorado\SIG\DadosCalcariasRodolitos\PlanilhasBase. Em ambas as planilhas foram acrescidos pontos resultantes dos polígonos (nuvens de pontos), a partir da planilha PresencaRodolitos.csv foi gerada a planilha PontosBC.csv, tambem salva nesta subpasta para consolidar a analise referente ao artigo BC. BC region N = pontos em latitudes menor ou igual a 21
 
 1.d) Subpasta: Data/TIFF contém dados obtidos por bases de dados, bem como arquivos .nc ou.shp convertidos para .tiff que serão utilizados como dados de entrada de scripts e modelagens.
+
+2) Docs/
+
+Contém o arquivo da tese. As versões antigas ficam na pasta "old".
+
+3) Figs/
+
+Constam todos os pngs gerados para apresentações ou resultantes de análises no R.
+
+4) Results/
+
+Arquivos resultantes de análise no R ou modelos
+
+5) Scripts/
+
+Todos os scripts contruídos durante a tese e relevantes para reacessar os dados gerados.
