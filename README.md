@@ -28,7 +28,15 @@ Constam todos os pngs gerados para apresentações ou resultantes de análises no R
 
 4) Results/
 
-Arquivos resultantes de análise no R ou modelos
+Arquivos resultantes de análise no R ou modelos.
+
+4.a) Teste realizado em 28/11/19 incluindo as preditoras na resolução Bio-Oracle e aquelas com melhor resposta na PCA exploratoria ("B_CV_Max", "B_CV_Min", "B_CV_R", "B_Light_Max", "B_Light_Min", "B_Light_R", "B_Nit_Max", "B_Nit_Min", "B_Nit_R", "B_PO_Max", "B_PO_Min", "B_PO_R", "B_Sal_Max", "B_Sal_Min", "B_Sal_R", "B_T_Max", "B_T_Min", "B_T_R", "DistRios",  "S_Alka_X",  "S_ARA_X", "S_CALC_X", "S_CO_X"). Maior data clean de todos os testes ate aqui, removendo 7083 pontos de presenca e mantendo somente 879. Warning message: In setup_sdmdata: Your background data had NA values,  9982 points were retained. FAZER EXTRAÇÃO DE DADOS COM VARIAVEIS NA NOVA RESOLUCAO PARA CHECAR ONDE ESTA O PROBLEMA DE NA NOS DADOS DE PRESENCA.
+Foram utilizados no teste os algoritmos glm, maxent e rf. Warning messages:
+
+do_many - glm.fit: fitted probabilities numerically 0 or 1 occurred
+final_model - In .local(x, ...) : invalid layer names omitted
+
+INFINITAMENTE MAIS RAPIDO. DUROU CERCA DE 1h. Salvo em C:\Viviane\Doutorado\Tese\mythesis\Results\modelos.
 
 5) Scripts/
 
