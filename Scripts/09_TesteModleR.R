@@ -26,7 +26,7 @@ tail(registros)
 (especie = as.vector(especies[[1]])) #cria objeto "especie" com somente a especie 1
 
 #importando as variáveis ambientais, criar uma pasta (exemplo/env) dentro da pasta que vc esta trabalhando para incluir os arquivos das suas variaveis, depois usar o comando abaixo com o nome dessa pasta criada
-pasta = "Data/TIFF/Selecao1/"
+pasta = "Data/TIFF/Selecao/"
 
 #caso seus rasters nao estejam no formato .tif precisa mudar o argumento pattern
 
@@ -39,7 +39,7 @@ lista #criado um vetor de caracteres, para importar tudo de 1 vez s?
 preditoras = stack(lista)
 preditoras
 names(preditoras) #vem sua lista de preditoras numeradas
-plot(preditoras[[44]]) #pedi para plotar so a preditora 4 (Velocidade de corrente media)
+plot(preditoras[[19]]) #pedi para plotar so a preditora 19 (DistRios)
 #predictors = example_vars  #arquivo modelo do R para teste
 
 ocorrencias <- registros[registros$sp == especie, c("lon", "lat")] #criando objeto ocorrencias com coluna da especie que selecionou no objeto especie e as colunas de lon e lat, facilita deixar sua tabela de especie com as colunas com esses nomes (especie, lon e lat)
@@ -47,7 +47,7 @@ ocorrencias <- registros[registros$sp == especie, c("lon", "lat")] #criando obje
 sdmdata_1sp <- setup_sdmdata(species_name = especie,
                              occurrences = ocorrencias,
                              predictors = preditoras,
-                             models_dir = "./modelos",
+                             models_dir = "./Results/modelos",
                              partition_type = "crossvalidation",
                              cv_partitions = 3,
                              cv_n = 1,
@@ -65,15 +65,15 @@ sdmdata_1sp <- setup_sdmdata(species_name = especie,
 
 do_many(species_name = especie,
         predictors = preditoras,
-        models_dir = "./modelos",
+        models_dir = "./Results/modelos",
         write_png = T,
         write_bin_cut = F,
         bioclim = F,
         domain = F, 
-        glm = F,
+        glm = T,
         svmk = F,
         svme = F, 
-        maxent = F, 
+        maxent = T, 
         maxnet = F,
         rf = T,
         mahal = F, 
@@ -81,12 +81,12 @@ do_many(species_name = especie,
         equalize = T)
 
 final_model(species_name = especie,
-            algorithms = NULL, #if null it will take all the in-disk algorithms 
-            models_dir = "./modelos",
+            algorithms = c("glm", "maxent", "rf"), #if null it will take all the in-disk algorithms 
+            models_dir = "./Results/modelos",
             select_partitions = TRUE,
-            select_par = "TSS",
-            select_par_val = 0,
-            which_models = c("cut_mean"),
+            select_par = "TSSmax",
+            select_par_val = 0.7,
+            which_models = c("cut_mean", "cut_mean_th"),
             consensus_level = 0.5,
             uncertainty = T,
             overwrite = T)
@@ -94,5 +94,5 @@ final_model(species_name = especie,
 ens <- ensemble_model(especie,
                       occurrences = ocorrencias,
                       which_final = c("cut_mean"),
-                      models_dir = "./modelos",
+                      models_dir = "./Results/modelos",
                       overwrite = TRUE)
