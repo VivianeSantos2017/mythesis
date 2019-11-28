@@ -18,25 +18,39 @@ ZEE = readOGR("Data/Shape/ZEE.shp")
 ZEE
 plot(ZEE)
 
-##importando raster modelo batimetria
+##importando rasters modelos batimetria e cloro
 
-bat = raster("Data/TIFF/RasterZEE/batZEE.tif")
+bat = raster("Data/TIFF/RasterZEE_AA/batZEE.tif")
 bat
 plot(bat)
 
-#rasterizando ZEE com base em raster bio-Oracle
+cloro = raster("Data/TIFF/RasterZEE/_Present.Benthic.Max.Depth.Chlorophyll.Range.tif")
+cloro
+plot(cloro)
+
+#rasterizando ZEE com base em raster bat ou bio-Oracle
 
 ZEEraster = rasterize(ZEE, bat)
 ZEEraster
 plot(ZEEraster)
 
-#reamostrando raster ZEE com base no raster batimetria
+ZEEbio = rasterize(ZEE, cloro)
+ZEEbio
+plot(ZEEbio)
+
+#reamostrando raster ZEE com base nos rasters batimetria e bio-oracle
 
 ZEEresampled = resample(ZEEraster, bat)
 ZEEresampled
 plot(ZEEresampled)
 
-writeRaster(ZEEresampled, "Data/TIFF/RasterZEE/ZEEraster.tif", overwrite = TRUE, format = "GTiff")
+ZEEresampled2 = resample(ZEEbio, cloro)
+ZEEresampled2
+plot(ZEEresampled2)
+
+writeRaster(ZEEresampled, "Data/TIFF/RasterZEE_AA/ZEEraster.tif", overwrite = TRUE, format = "GTiff")
+
+writeRaster(ZEEresampled2, "Data/TIFF/RasterZEE/ZEEbio.tif", overwrite = TRUE, format = "GTiff")
 
 
 #importando shape foz dos rios federais
@@ -45,9 +59,9 @@ rios = readOGR("Data/Shape/FozRiosFederais.shp")
 rios
 plot(rios)
 
-#rasterizando shape rios, com base no raster ZEE e atribuindo o valor 0.0001 para os pontos foz dos rios
+#rasterizando shape rios, com base no raster ZEE e atribuindo o valor 0.0001 para os pontos foz dos rios (aqui basta escolher ZEEresampled ou ZEEresampled2 para altissima ou alta resolucao e seguir adiante)
 
-rios.raster = rasterize(rios, ZEEresampled, 0.0001) 
+rios.raster = rasterize(rios, ZEEresampled2, 0.0001) 
 rios.raster 
 plot(rios.raster)
 

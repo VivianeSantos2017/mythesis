@@ -32,4 +32,6 @@ Arquivos resultantes de análise no R ou modelos
 
 5) Scripts/
 
-Todos os scripts contruídos durante a tese e relevantes para reacessar os dados gerados.
+Todos os scripts construídos durante a tese e relevantes para reacessar os dados gerados.
+
+Os scripts de geração de rasters de variáveis para a ZEE foram elaborados tomando como base a altíssima resolução do raster de batimetria do GEBCO. No entanto, após realizar as análises exploratórias verifiquei que a batimetria e as variáveis derivadas dela pouco explicavam a variância dos dados de presença. Além disso, em testes realizados no ModleR foi verificado um grande aumento do tempo necessário para rodar todas as funções, em especial a do_many. Os rasters em altíssima resolução foram então transferidos para a pasta RasterZEE_AA e uma nova pasta RasterZEE foi aberta para geração de raster em alta resolução, tomando como base a resolução dos rasters da Bio-Oracle, excluindo-se os rasters de batimetria e suas variáveis derivadas. Todos os scripts de corte e tratamento dos rasters Bio-Oracle e Glodap foram revisados e o raster de Distancia de Rios foi gerado novamente a partir de um raster Bio-Oracle.

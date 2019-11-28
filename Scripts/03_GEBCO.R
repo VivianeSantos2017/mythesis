@@ -2,7 +2,7 @@
 ##Extracao Dados GEBCO
 #----------------------
 
-#Este script le os dados do GEBCO em .nc, salva a camada de interesse em .TIFF, faz o recorte para a area de estudo (ZEE), salva o raster de batimetria para a ZEE e gera rasters com outras caracteristicas de terreno derivadas da batimetria (slope, aspect, TRI, TPI, roghness e flowdir of water). Desenvolvido por Viviane Santos. Detalhes adicionais no README, item 03.
+#Este script le os dados do GEBCO em .nc (download from https://www.gebco.net/data_and_products/gridded_bathymetry_data/, October 11, 2019), salva a camada de interesse em .TIFF, faz o recorte para a area de estudo (ZEE), salva o raster de batimetria para a ZEE e gera rasters com outras caracteristicas de terreno derivadas da batimetria (slope, aspect, TRI, TPI, roghness e flowdir of water). Desenvolvido por Viviane Santos. Detalhes adicionais no README, item 03.
 
 #carregando os pacotes
 library(rgdal)
