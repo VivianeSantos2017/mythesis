@@ -18,6 +18,12 @@ C:\Viviane\Doutorado\SIG\BasesDadosAbio\GLODAP
 
 1.d) Subpasta: Data/TIFF contém dados obtidos por bases de dados, bem como arquivos .nc ou.shp convertidos para .tiff que serão utilizados como dados de entrada de scripts e modelagens.
 
+INSERIR PERIODOS EM QUE OS DADOS DOS DATASET UTILIZADOS FORAM OBTIDOS:
+
+GEBCO - Vizualizar em https://www.gebco.net/data_and_products/gridded_bathymetry_data/gebco_2019/gebco_2019_info.html e descrever aqui para registro.
+Bio-Oracle - home page e artigos
+Glodap - home page e artigos
+
 2) Docs/
 
 Contém o arquivo da tese. As versões antigas ficam na pasta "old".
@@ -30,13 +36,21 @@ Constam todos os pngs gerados para apresentações ou resultantes de análises no R
 
 Arquivos resultantes de análise no R ou modelos.
 
-4.a) Teste realizado em 28/11/19 incluindo as preditoras na resolução Bio-Oracle e aquelas com melhor resposta na PCA exploratoria ("B_CV_Max", "B_CV_Min", "B_CV_R", "B_Light_Max", "B_Light_Min", "B_Light_R", "B_Nit_Max", "B_Nit_Min", "B_Nit_R", "B_PO_Max", "B_PO_Min", "B_PO_R", "B_Sal_Max", "B_Sal_Min", "B_Sal_R", "B_T_Max", "B_T_Min", "B_T_R", "DistRios",  "S_Alka_X",  "S_ARA_X", "S_CALC_X", "S_CO_X"). Maior data clean de todos os testes ate aqui, removendo 7083 pontos de presenca e mantendo somente 879. Warning message: In setup_sdmdata: Your background data had NA values,  9982 points were retained. FAZER EXTRAÇÃO DE DADOS COM VARIAVEIS NA NOVA RESOLUCAO PARA CHECAR ONDE ESTA O PROBLEMA DE NA NOS DADOS DE PRESENCA.
+4.a) Teste realizado em 28/11/19 incluindo as preditoras na resolução Bio-Oracle e aquelas com melhor resposta na PCA exploratoria ("B_CV_Max", "B_CV_Min", "B_CV_R", "B_Light_Max", "B_Light_Min", "B_Light_R", "B_Nit_Max", "B_Nit_Min", "B_Nit_R", "B_PO_Max", "B_PO_Min", "B_PO_R", "B_Sal_Max", "B_Sal_Min", "B_Sal_R", "B_T_Max", "B_T_Min", "B_T_R", "DistRios",  "S_Alka_X",  "S_ARA_X", "S_CALC_X", "S_CO_X"). Maior data clean de todos os testes ate aqui, removendo 7083 pontos de presenca e mantendo somente 879. Warning message: In setup_sdmdata: Your background data had NA values,  9982 points were retained. OBS.: Fiz extracao de dados a partir dos rasters na resolucao de 9.2km e o numero de NA foi o mesmo que o encontrado para a extracao a partir de dados de alta resolucao.
+
 Foram utilizados no teste os algoritmos glm, maxent e rf. Warning messages:
 
 do_many - glm.fit: fitted probabilities numerically 0 or 1 occurred
 final_model - In .local(x, ...) : invalid layer names omitted
 
 INFINITAMENTE MAIS RAPIDO. DUROU CERCA DE 1h. Salvo em C:\Viviane\Doutorado\Tese\mythesis\Results\modelos.
+
+Teste com rasters de alta resolucao, removidos 5282 e mantendo 2680 clean points, com 2 Warning messages na 1a funcao (setup_sdmdata):
+Warning messages:
+1: In dismo::randomPoints(mask = pbuffr, n = n_back_mod, p = occurrences,  :
+  generated random points = 0.928 times requested number
+2: In setup_sdmdata(species_name = especie, occurrences = ocorrencias,  :
+  Your background data had NA values,  9158 points were retained
 
 5) Scripts/
 
