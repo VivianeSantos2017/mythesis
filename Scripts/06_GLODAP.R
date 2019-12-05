@@ -89,3 +89,57 @@ writeRaster(glodap.resampled3, "Data/TIFF/RasterZEE/.tif", format = "GTiff", byl
 
 #salvando rasters reamostrados
 writeRaster(glodap2.resampled, "Data/TIFF/Selecao/.tif", format = "GTiff", bylayer = TRUE, suffix = "names", overwrite = TRUE)
+
+
+#extraindo todas as camadas para raster mosaico
+calc33 = brick("Data/NC/GLODAPv2.2016b.OmegaC.nc")
+calc = stack(calc33)
+calc
+plot(calc)
+
+#acertando projecao
+calc.rotated = rotate(calc)
+plot(calc.rotated)
+
+##repetindo mesmo procedimento anterior
+#importando raster mundi modelo GEBCO (altissima resolucao)
+bat = raster("Data/NC/GEBCO_2019.nc")
+bat
+plot(bat)
+
+#reamostrando rasters Glodap em altissima resolucao
+calc.resampled = resample(calc.rotated, bat)
+
+#importando shape com a ZEE do Brasil
+
+ZEE = readOGR("Data/Shape/ZEE.shp")
+plot(ZEE)
+
+#Recortando rasters em 1 passo, pois deu erro ao tentar 2 passos como nos demais
+
+calc.masked = mask(crop(calc.resampled,ZEE), ZEE)
+calc.masked
+plot(calc.masked)
+
+#ALTERNATIVA: Recortando raster em 2 passos
+
+#primeiro funcao mask: usa o recorte do shape
+calc.masked = mask(calc.resampled, ZEE)
+calc.masked#coloca NA em tudo e mantem o extent do mundo
+plot(biora.masked)
+
+#depois a funcao trim: exclui todas as linhas e colunas com NA, dai o Brasil pequenino amplia apos retirada do NA
+calc.trimmed = trim(calc.masked)
+plot(calc.trimmed)
+
+##Nao ficaram com o mesmo extent dos demais devido ao corte em 1 unico passo, enqto os demais foram cortados em 2 passos 
+
+#reamostrar de acordo com um raster ZEE modelo bat (altissima resolucao)
+
+batZEE  = raster("Data/TIFF/Selecao/BAT.tif")
+
+calc2.resampled = resample(calc.trimmed, batZEE)
+plot(calc2.resampled)
+
+#salvando rasters com recorte da ZEE
+writeRaster(calc2.resampled, "Data/TIFF/Glodap/Calc/.tif", format = "GTiff", bylayer = TRUE, suffix = "names", overwrite = TRUE) #com o argumento suffix = "names" vc pode pedir para ele manter os nomes originais
