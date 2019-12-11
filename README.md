@@ -88,15 +88,46 @@ ERRO no do_many, logo no 1o algoritmo "glm":
 Erro: não é possível alocar vetor de tamanho 23.8 Mb
 + warning: fitted probabilities numerically 0 or 1 occurred 
 
-
 4.c) Teste realizado em 02/12/19 incluindo as preditoras na resolução Bio-Oracle e aquelas 23 com melhor resposta na PCA exploratoria ("B_CV_Max", "B_CV_Min", "B_CV_R", "B_Light_Max", "B_Light_Min", "B_Light_R", "B_Nit_Max", "B_Nit_Min", "B_Nit_R", "B_PO_Max", "B_PO_Min", "B_PO_R", "B_Sal_Max", "B_Sal_Min", "B_Sal_R", "B_T_Max", "B_T_Min", "B_T_R", "DistRios",  "S_Alka_X",  "S_ARA_X", "S_CALC_X", "S_CO_X"). 
 
 Mantido padrao de maior data clean de todos os testes do 4.a, mesma Warning message: In setup_sdmdata: Your background data had NA values,  9982 points were retained. 
 
 Foram utilizados no teste os algoritmos svme, svmk e brt. 
 
+4.d) Teste com rasters de alta resolucao, com as mesmas 23 variaveis usando o Azure (início 15:30)
+
+data clean = 4.b, ma teve mais pontos retidos no background data (9855)
+Após evaluating model da 1a particao deu erro
+Error in get0(oNam, envir = ns) : 
+  lazy-load database '/home/modleR/R/x86_64-pc-linux-gnu-library/3.6/kuenm/R/kuenm.rdb' is corrupt
+In addition: There were 50 or more warnings (use warnings() to see the first 50)Ç glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+Em fitting models maxent deu erro:
+Error in .getMeVersion() : file missing:
+/home/modleR/R/x86_64-pc-linux-gnu-library/3.6/dismo/java/maxent.jar.
+Please download it here: http://www.cs.princeton.edu/~schapire/maxent/
+
+Na vdd o arquivo .jar está disponivel em http://biodiversityinformatics.amnh.org/open_source/maxent/
+Salvei no local solicitado e mantive o arquivo .zip em C:\Viviane\Doutorado\Tese\mythesis\maxent
+
+PERDIDOS 30 MINUTOS NESSE INÍCIO DE RODADA E LOAD DO EXECUTAVEL DO MAXENT. REINICIADO DO_MANY 16:30PM AQUI (8:30AM EM LONDRES), SUBSTITUINDO 'GLM' POR 'BRT'
+
+DEPOIS DE 1H, ERRO NO MAXENT:
+Error in get0(oNam, envir = ns) : 
+  lazy-load database '/home/modleR/R/x86_64-pc-linux-gnu-library/3.6/kuenm/R/kuenm.rdb' is corrupt
+In addition: Warning messages:
+1: In get0(oNam, envir = ns) : restarting interrupted promise evaluation
+2: In get0(oNam, envir = ns) : internal error -3 in R_decompress1
+
+Recomecei com comando library(kuenm), 11/01 à 9:45am até 19:40.
+GLM Warning messages:
+1: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
 5) Scripts/
 
 Todos os scripts construídos durante a tese e relevantes para reacessar os dados gerados.
 
 Os scripts de geração de rasters de variáveis para a ZEE foram elaborados tomando como base a altíssima resolução do raster de batimetria do GEBCO. No entanto, após realizar as análises exploratórias verifiquei que a batimetria e as variáveis derivadas dela pouco explicavam a variância dos dados de presença. Além disso, em testes realizados no ModleR foi verificado um grande aumento do tempo necessário para rodar todas as funções, em especial a do_many. Os rasters em altíssima resolução foram então transferidos para a pasta RasterZEE_AA e uma nova pasta RasterZEE foi aberta para geração de raster em alta resolução, tomando como base a resolução dos rasters da Bio-Oracle, excluindo-se os rasters de batimetria e suas variáveis derivadas. Todos os scripts de corte e tratamento dos rasters Bio-Oracle e Glodap foram revisados e o raster de Distancia de Rios foi gerado novamente a partir de um raster Bio-Oracle.
+
+Feito teste BC para alimentar o paper BC (ver Script 08_PCA, a partir da linha 270): Em todos os testes os setores da BC ficaram bem separados com somente 2 outliers do setor norte junto ao setor sul. INVESTIGAR
+#Batimetria está com valores absolutos negativos, portanto a leitura é invertida. Retirar o sinal negativo da planilha-base.
