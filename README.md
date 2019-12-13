@@ -123,6 +123,40 @@ Recomecei com comando library(kuenm), 11/01 à 9:45am até 19:40.
 GLM Warning messages:
 1: glm.fit: fitted probabilities numerically 0 or 1 occurred
 
+4.e) Teste com 'sdm' e variáveis em alta resolução
+
+8 variables from the 23 input variables have collinearity problem: 
+ 
+B_PO4_Min B_NIT_Max B_T_Max Slope_R Roughness B_NIT_Min B_T_Min S_ALKA_X 
+
+After excluding the collinear variables, the linear correlation coefficients ranges between: 
+min correlation ( TRI ~ B_Light_Max ):  2.806258e-05 
+max correlation ( B_Light_Min ~ B_Light_Max ):  0.8294715 
+
+---------- VIFs of the remained variables -------- 
+     Variables      VIF
+1     Aspect_R 1.267689
+2     B_CV_Max 3.853611
+3     B_CV_Min 5.206453
+4  B_Light_Max 4.201334
+5  B_Light_Min 6.786788
+6    B_PO4_Max 7.047399
+7    B_SAL_Max 5.027409
+8    B_SAL_Min 1.566852
+9          BAT 4.961808
+10     FlowDir 1.259604
+11       River 1.885862
+12     S_CAL_X 2.815652
+13     S_CO2_X 4.160293
+14         TPI 1.013820
+15         TRI 1.193904
+
+#model run 100% success for glm, brt and rf, but 0% for maxent, svm and gam
+
+#Error in if (wtest == "test.dep") cat("model Mean performance (per species), using test dataset (generated using partitioning):\n") else if (wtest ==  : missing value where TRUE/FALSE needed
+
+#when I tried roc(m) the error message is there is no evaluation in the model object!
+
 5) Scripts/
 
 Todos os scripts construídos durante a tese e relevantes para reacessar os dados gerados.
