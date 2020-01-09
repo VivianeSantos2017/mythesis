@@ -157,6 +157,41 @@ max correlation ( B_Light_Min ~ B_Light_Max ):  0.8294715
 
 #when I tried roc(m) the error message is there is no evaluation in the model object!
 
+4.f) Teste com 'sdm' e variáveis em menor resolução
+
+8 variables from the 23 input variables have collinearity problem: 
+ 
+TRI B_PO4_Min Slope_R B_NIT_Max B_T_Max B_NIT_Min B_T_Min S_ALKA_X 
+
+After excluding the collinear variables, the linear correlation coefficients ranges between: 
+min correlation ( TPI ~ B_SAL_Min ):  0.004678436 
+max correlation ( B_SAL_Max ~ B_PO4_Max ):  -0.8503158 
+
+---------- VIFs of the remained variables -------- 
+     Variables      VIF
+1     Aspect_R 3.310995
+2     B_CV_Max 4.311676
+3     B_CV_Min 5.796469
+4  B_Light_Max 3.173400
+5  B_Light_Min 5.220199
+6    B_PO4_Max 8.646109
+7    B_SAL_Max 5.990526
+8    B_SAL_Min 1.401129
+9          BAT 6.062099
+10     FlowDir 3.575467
+11       River 2.051211
+12   Roughness 1.327747
+13     S_CAL_X 2.974318
+14     S_CO2_X 4.578802
+15         TPI 1.047063
+
+#model run 100% success for glm, brt, rf, and gam but 0% for maxent and svm
+
+#Error in if (wtest == "test.dep") cat("model Mean performance (per species), using test dataset (generated using partitioning):\n") else if (wtest ==  : 
+  missing value where TRUE/FALSE needed
+
+#Error in roc(m) : there is no evaluation in the model object!
+
 5) Scripts/
 
 Todos os scripts construídos durante a tese e relevantes para reacessar os dados gerados.
