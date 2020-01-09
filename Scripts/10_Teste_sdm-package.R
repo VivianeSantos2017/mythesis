@@ -10,6 +10,11 @@ installAll()
 library(rgdal)
 library(raster)
 #----------
+rhodo = readOGR("Data/Shape/Rodolitos_pontos.shp", encoding = "UTF-8")#testing shape, but to work I have to add a column "Occurrence"
+rhodo
+plot(rhodo)
+
+#Alternatively, enter direct with .csv
 tabela <- read.csv("Data/Tabela/sdmdata_AA_sdm.csv", h = T, sep = ";", dec = ".")#function shapefile did not run because of missing .prj file
 tabela
 coordinates(tabela) = ~X+Y 
@@ -17,13 +22,10 @@ CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
 str(tabela)
 
-proj4string(tabela)
+proj4string(tabela)#trying another to insert projection
 crs(tabela) <- CRS("+proj=longlat +ellps=GRS80 +no-defs")
 tabela
 
-rhodo = readOGR("Data/Shape/Rodolitos_pontos.shp", encoding = "UTF-8")
-rhodo
-plot(rhodo)
 
 sp <- tabela#function shapefile did not run because of missing .prj file
 sp
@@ -40,15 +42,15 @@ preds
 plot(preds[[9]])
 points(sp)
 
-pseudo = sampleRandom(preds[[9]], 6000, sp=T)
-points(pseudo, col='blue')
+pseudo = sampleRandom(preds[[9]], 6000, sp=T)#creating pseudoabsences
+points(pseudo, col='blue')#ploting pseudoabsences
 
 head(tabela)
-tabela$species <- 1
+tabela$species <- 1#considering all lines from "tabela" = 1 (presence)
 
 head(tabela@data)
 class(tabela)
-class(tabela@data )
+class(tabela@data)
 
 #------
 tabela@data <- sp@data[,'species',drop=F]
@@ -60,26 +62,22 @@ head(pseudo@data)
 head(tabela@data)
 proj4string(tabela) <- proj4string(pseudo)
 
-rhodoPA <- rbind(tabela,pseudo)
+rhodoPA <- rbind(tabela,pseudo)#creating a matrix considering presence and pseudoabsence data
 plot(rhodoPA)
 summary(rhodoPA)
 
-###extract raster values using pos pres/abs
+###extract raster values using rhodo pres/abs
 ex <- extract(preds,rhodoPA)
 head(ex)
 class(ex)
 ex <- data.frame(ex)
-
-
-
-
 
 #--------
 library(usdm)
 v1 <- vifstep(ex)#calculates variance inflation factor (VIF) for a set of variables and excludes the highly correlated variables from the set.
 v1
 
-v2 = vifcor(ex,th=0.85)#th = threshold
+v2 = vifcor(ex,th=0.85)#another way to calculate considering th = threshold
 v2
 
 preds <- exclude(preds, v1)
@@ -106,10 +104,10 @@ d
 m <- sdm(species~.,data=d,methods=c('glm','brt','rf', 'maxent', 'svm', 'gam'),#fit using 3 models
          replication=c('sub','boot','cv'),n=1,test.p=30,cv.folds=5,#evaluates using 1 run 'n=1' of subsampling and bootsrapping methods plus 5-folds of cross-validation replication methods, taking 30 percent as test
          modelSettings=list(brt=list(n.trees=2000,shrinkage=0.01)))#override the default settings for the method brt
-m #maxent, svm e gam nao rodaram
+m #the models explained less than 40% of deviance
 # parallel::detectCores() to check the number of cores
-write.sdm(m,'modelObject.sdm', overwrite = TRUE) # save the sdm object
-m <- read.sdm('modelObject.sdm') # read the saved sdm object
+write.sdm(m,'Results/sdm1/modelObject.sdm', overwrite = TRUE) # save the sdm object
+m <- read.sdm('Results/sdm1/modelObject.sdm') # read the saved sdm object
 roc(m)#Plot the Receiver Operating Characteristics (ROC) curve with AUC statistic in the legend.
 dev.off()#provide control over multiple graphics devices
 getVarImp(m,10)#calculates relative importance of different variables in the models using several approaches
@@ -119,10 +117,15 @@ getModelInfo(m)#returns a data.frame summarising some information relevant to th
 
 rcurve(m,id=1)#Calculate the response of species to the range of values in each predictor variable based on the fitted models in a sdmModels object, in this case 'id=1' is 'modelID=1', which is glm subsampling.
 #------------
-p <- predict(m, preds, filename='predict_sdm.img')#'predict' make a Raster or matrix object (depending on input dataset) with predictions from one or several fitted models in sdmModels object
+p <- predict(m, preds, filename='Results/sdm1/predict_sdm.img')#'predict' make a Raster or matrix object (depending on input dataset) with predictions from one or several fitted models in sdmModels object
 p
 getZ(p)#Initial functions for a somewhat more formal approach to get or set z values (e.g. time) associated with layers of Raster* objects.
-plot(p[[1:4]])
+plot(p[[1:4]])#ploting the first 4 models
+plot(p[[10:13]])#ploting 4 models cv for brt
+plot(p[[17:20]])#ploting 4 models cv for rf
+plot(p[[24:27]])#ploting 4 models cv for maxent
+plot(p[[31:34]])#ploting 4 models cv for svm
+
 
 p[[1]][1000]##model 1 x 1000???
 
