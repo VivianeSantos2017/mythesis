@@ -12,16 +12,25 @@ library(raster)
 #----------
 tabela <- read.csv("Data/Tabela/sdmdata_AA_sdm.csv", h = T, sep = ";", dec = ".")#function shapefile did not run because of missing .prj file
 tabela
-coordinates(tabela) = ~lon+lat 
-CRS("+proj=longlat +datum=WGS84")
+coordinates(tabela) = ~X+Y 
+CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
+
+str(tabela)
+
+proj4string(tabela)
+crs(tabela) <- CRS("+proj=longlat +ellps=GRS80 +no-defs")
 tabela
+
+rhodo = readOGR("Data/Shape/Rodolitos_pontos.shp", encoding = "UTF-8")
+rhodo
+plot(rhodo)
 
 sp <- tabela#function shapefile did not run because of missing .prj file
 sp
 head(sp)
 
-pasta = "Data/TIFF/Selecao/"#para teste com rasters de menor resolucao
-pasta = "Data/TIFF/Selecao_AA/"#OU para teste com rasters de altissima resolucao
+pasta = "Data/TIFF/Selecao/"#for tests with low res rasters
+pasta = "Data/TIFF/Selecao_AA/"#OR for tests with low res rasters
 
 
 lst <- list.files(pasta, pattern='.tif', full.names = TRUE)
@@ -30,32 +39,69 @@ preds <- stack(lst)
 preds
 plot(preds[[9]])
 points(sp)
+
+pseudo = sampleRandom(preds[[9]], 6000, sp=T)
+points(pseudo, col='blue')
+
+head(tabela)
+tabela$species <- 1
+
+head(tabela@data)
+class(tabela)
+class(tabela@data )
+
+#------
+tabela@data <- sp@data[,'species',drop=F]
+
+pseudo@data$species <- 0
+pseudo@data <- pseudo@data[,'species',drop=F]
+
+head(pseudo@data)
+head(tabela@data)
+proj4string(tabela) <- proj4string(pseudo)
+
+rhodoPA <- rbind(tabela,pseudo)
+plot(rhodoPA)
+summary(rhodoPA)
+
+###extract raster values using pos pres/abs
+ex <- extract(preds,rhodoPA)
+head(ex)
+class(ex)
+ex <- data.frame(ex)
+
+
+
+
+
 #--------
 library(usdm)
-v1 <- vifstep(preds)#calculates variance inflation factor (VIF) for a set of variables and excludes the highly correlated variables from the set.
+v1 <- vifstep(ex)#calculates variance inflation factor (VIF) for a set of variables and excludes the highly correlated variables from the set.
 v1
+
+v2 = vifcor(ex,th=0.85)#th = threshold
+v2
+
 preds <- exclude(preds, v1)
 #------------
 head(sp)
 
-d <- sdmData(Occurrence ~ .,train=sp,predictors = preds )#Creates a sdmdata objects that holds species (single or multiple) and explanatory variates
-d
-d <- sdmData(train=sp,predictors = preds )#as above
-d
-#------------
-##############
-# if we have the data all in a data.frame
-df <- data.frame(species=sp$Occurrence,extract(preds,sp),coordinates(sp))
-colnames(df)[17:18] <- c('x','y')#dando nome as colunas das coordenadas do objeto sp
-head(df)
-d <- sdmData(species~. + coords(x+y), train=df )
-d
-write.sdm(d,'dataObject', overwrite = T)#write an sdm object to a file.
-d <- read.sdm('dataObject.sdd')#Read an sdm object from a file.
-d
-########################
+df = data.frame(ex, species=rhodoPA$species)
 
-getmethodNames()#See the names of available methods in the package. It is not limited only to modelling (fitting) methods, but can be a replication method, or one to generate pseudo-absences, etc. You can get an object of an existing method through getmethod.
+nrow(df)
+nrow(df)*70/100
+
+s=sample(nrow(df), 6076)
+train = df[s,]
+test = df[-s,]
+head(train)
+head(test)
+
+
+d <- sdmData(species ~ .,train=df)#Creates a sdmdata objects that holds species (single or multiple) and explanatory variates
+d
+
+#-------
 
 m <- sdm(species~.,data=d,methods=c('glm','brt','rf', 'maxent', 'svm', 'gam'),#fit using 3 models
          replication=c('sub','boot','cv'),n=1,test.p=30,cv.folds=5,#evaluates using 1 run 'n=1' of subsampling and bootsrapping methods plus 5-folds of cross-validation replication methods, taking 30 percent as test
