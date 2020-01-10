@@ -192,6 +192,56 @@ max correlation ( B_SAL_Max ~ B_PO4_Max ):  -0.8503158
 
 #Error in roc(m) : there is no evaluation in the model object!
 
+OBS.: O erro foi pq não foram geradas pseudoausencias (o script só tinha códigos para dados de presença). Adicionando as pseudoausências os códigos rodaram, porém as variáveis explicaram pouco da variância dos dados. O teste foi realizado excluindo as variáveis de salinidade, TRI, slope, nitrato, alcalinidade, flowdir, batimetria e CO2. RODAR NOVO TESTE CONSIDERANDO AS MESMAS VARIÁVEIS EM ALTA RESOLUÇÃO PARA VERIFICAR SE A EXPLICAÇÃO DA VARIÂNCIA MELHORA E DEPOIS RODAR NOVO TESTE EXCLUINDO FOSFATO E INSERINDO SALINIDADE.
+
+4.g) Teste sdm2 (23 variables - all) and sdm2b considerando as variáveis vifcor th = 0.8 + temperaturas (15 variaveis)
+
+10 variables from the 23 input variables have collinearity problem: 
+ 
+B_PO4_Min Slope_R Roughness B_NIT_Max B_T_Max B_NIT_Min B_T_Min S_ALKA_X B_PO4_Max B_Light_Min 
+
+After excluding the collinear variables, the linear correlation coefficients ranges between: 
+min correlation ( TPI ~ B_SAL_Min ):  -0.00115684 
+max correlation ( BAT ~ B_SAL_Max ):  0.7795429 
+
+---------- VIFs of the remained variables -------- 
+     Variables      VIF
+1     Aspect_R 1.262577
+2     B_CV_Max 2.406146
+3     B_CV_Min 2.952365
+4  B_Light_Max 1.525514
+5    B_SAL_Max 3.996529
+6    B_SAL_Min 1.698078
+7          BAT 4.875291
+8      FlowDir 1.249293
+9        River 2.449075
+10     S_CAL_X 3.187845
+11     S_CO2_X 3.384450
+12         TPI 1.018938
+13         TRI 1.166223
+
+4.g.1)sdm2: Something wrong. The model ran with all variables... gam did not run, the deviance was low again, maxent perform better again and BAT was the variable with major contribution.
+
+In p <- predict(m, preds, filename='Documents/rhodolith/modelos/sdm2/predict_sdm.img')#'predict' make a Raster or matrix object (depending on input dataset) with predictions from one or several fitted models in sdmModels object
+Error in .generateWLP(x = object, newdata = newdata, w = w, species = species,  : 
+  the data does not contain some or all of the variables that the model needs...
+
+4.g.2)sdm2b: gam did not run again, the deviance was low again, maxent perform better again and Light_Max, BAT, Calcite and CV were the variables with major contribution. TPI, FlowDir and Aspect were ZERO contribution, River, TPI, CO2, Tmax, Salinity were very low contributors.
+In p <- predict(m, preds, filename='Documents/rhodolith/modelos/sdm2/predict_sdm.img')
+Error in GDAL.close(new.obj) : 
+	GDAL Error 3: Failed to write 230 bytes HFAEntry Projection(Eprj_ProParameters) data, out of disk space?
+Error in save(plot, file = filename) : error writing to connection
+Graphics error: Plot rendering error
+Error in save(plot, file = filename) : error writing to connection
+Graphics error: Plot rendering error
+*mas salvou arquivos predict_sdm.ige, predict_sdm.img, e predict_sdm_img.aux.xml, com 9,6GB, 59,2KB e 0B, respectivamente.
+
+NOVO ERRO DA FUNÇÃO 'PREDICT' PARECE PROBLEMA DE CONEXÃO ENTRE MÁQUINA E RSTUDIO, TENTAR  DE NOVO COM O SCRIPT ATUAL
+DEPOIS TENTAR  DE NOVO EXCLUINDO O 'gam' QUE NÃO RODOU
+REPETIR ANÁLISE DE CORREL AUMENTANDO TH PARA 0.85 PARA VERIFICAR SE BAT SAI E/OU VARIÁVEI COM BX CONTRIBUIÇÃO
+
+
+
 5) Scripts/
 
 Todos os scripts construídos durante a tese e relevantes para reacessar os dados gerados.
