@@ -237,8 +237,14 @@ Graphics error: Plot rendering error
 *mas salvou arquivos predict_sdm.ige, predict_sdm.img, e predict_sdm_img.aux.xml, com 9,6GB, 59,2KB e 0B, respectivamente.
 
 NOVO ERRO DA FUNÇÃO 'PREDICT' PARECE PROBLEMA DE CONEXÃO ENTRE MÁQUINA E RSTUDIO, TENTAR  DE NOVO COM O SCRIPT ATUAL
+Deu erro novo...
+Error in o[[id[j]]] : subscript out of bounds
+
 DEPOIS TENTAR  DE NOVO EXCLUINDO O 'gam' QUE NÃO RODOU
+Daí o Maxent que não rodou 100%. Primeiro foi 28.5714285714286% e depois or 2 x foi 42.8571428571429%. Não tentei rodar a função predict de novo...
+
 REPETIR ANÁLISE DE CORREL AUMENTANDO TH PARA 0.85 PARA VERIFICAR SE BAT SAI E/OU VARIÁVEI COM BX CONTRIBUIÇÃO
+Não, mantém a saída da Temperatura, tal como o th = 0.8
 
 
 
