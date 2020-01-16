@@ -241,10 +241,14 @@ Deu erro novo...
 Error in o[[id[j]]] : subscript out of bounds
 
 DEPOIS TENTAR  DE NOVO EXCLUINDO O 'gam' QUE NÃO RODOU
-Daí o Maxent que não rodou 100%. Primeiro foi 28.5714285714286% e depois or 2 x foi 42.8571428571429%. Não tentei rodar a função predict de novo...
+Daí o Maxent que não rodou 100%. Primeiro foi 28.5714285714286% e depois or 2 x foi 42.8571428571429%. 
+Repetindo todo o processo e não somente lendo os objetos já gerados anteriormente, o maxent rodou 100%. Mas deu o mesmo erro na função predict.
+Error in o[[id[j]]] : subscript out of bounds
 
 REPETIR ANÁLISE DE CORREL AUMENTANDO TH PARA 0.85 PARA VERIFICAR SE BAT SAI E/OU VARIÁVEI COM BX CONTRIBUIÇÃO
 Não, mantém a saída da Temperatura, tal como o th = 0.8
+
+REPETIR TUDO SEM BATIMETRIA E DERIVADAS COM VAR DE BX E ALTA RESOLUCAO?
 
 
 
