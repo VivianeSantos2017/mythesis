@@ -194,7 +194,7 @@ max correlation ( B_SAL_Max ~ B_PO4_Max ):  -0.8503158
 
 OBS.: O erro foi pq não foram geradas pseudoausencias (o script só tinha códigos para dados de presença). Adicionando as pseudoausências os códigos rodaram, porém as variáveis explicaram pouco da variância dos dados. O teste foi realizado excluindo as variáveis de salinidade, TRI, slope, nitrato, alcalinidade, flowdir, batimetria e CO2. RODAR NOVO TESTE CONSIDERANDO AS MESMAS VARIÁVEIS EM ALTA RESOLUÇÃO PARA VERIFICAR SE A EXPLICAÇÃO DA VARIÂNCIA MELHORA E DEPOIS RODAR NOVO TESTE EXCLUINDO FOSFATO E INSERINDO SALINIDADE.
 
-4.g) Teste sdm2 (23 variables - all) and sdm2b considerando as variáveis vifcor th = 0.8 + temperaturas (15 variaveis)
+4.g) Teste sdm2 (23 variables - all), sdm2b considerando as variáveis vifcor th = 0.8 + temperaturas (15 variaveis) e sdm2c retirando as de bx importancia, exceto T e Sal.
 
 10 variables from the 23 input variables have collinearity problem: 
  
@@ -248,7 +248,23 @@ Error in o[[id[j]]] : subscript out of bounds
 REPETIR ANÁLISE DE CORREL AUMENTANDO TH PARA 0.85 PARA VERIFICAR SE BAT SAI E/OU VARIÁVEI COM BX CONTRIBUIÇÃO
 Não, mantém a saída da Temperatura, tal como o th = 0.8
 
-REPETIR TUDO SEM BATIMETRIA E DERIVADAS COM VAR DE BX E ALTA RESOLUCAO?
+4.g.3) sdm2c: retirando TPI, TRI, CO2, river, FlowDir, aspect. VIF manda tirar as Temperatura e Lght Min, mas as mantive.
+
+Manteve deviance parecida, com máx para o maxent (0.39)
+
+Erro na funcao 'predict' de novo
+Error in GDAL.close(new.obj) : 
+	GDAL Error 3: Failed to write 843 bytes HFAEntry ProjectionX(Eprj_MapProjection842) data, out of disk space?
+
+Deletei pasta sdm2 e rodei de novo, mas deu mesmo erro
+
+4.h) Mais testes em bx para verificar se % contribuicao e deviance aumentam
+
+sdm3 (sem as variaveis de batimetria): Não aumenta, reduz um pouco até.
+sdm4 (variaveis do modelo de Carvalho et al. 2019): Deviance mais ou menos igual, exceto glm que aumentou para 0.46. Ja o % contribuicao aumentou bastante, mas nao igual a Carvalho. Nesse caso Luz assumiu o papel da Temperatura. Segui com as demais funcoes e predict rodou de novo tal como no 1o teste com variaveis em bx resolucao (sdm). Parou de rodar em e <- evaluates(df$species,extract(en2,df[,c('x','y')])):
+
+Error in `[.data.frame`(df, , c("x", "y")) : undefined columns selected
+Nao tem as colunas 'x' e 'y'. Onde se perderam? Faltou atribuir?
 
 
 
