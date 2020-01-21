@@ -39,10 +39,10 @@ lst <- list.files(pasta, pattern='.tif', full.names = TRUE)
 lst
 preds <- stack(lst)
 preds
-plot(preds[[9]])
+plot(preds[[8]])
 points(sp)
 
-pseudo = sampleRandom(preds[[9]], 6000, sp=T)#creating pseudoabsences
+pseudo = sampleRandom(preds[[8]], 6000, sp=T)#creating pseudoabsences
 points(pseudo, col='blue')#ploting pseudoabsences
 
 head(tabela)
@@ -53,7 +53,7 @@ class(tabela)
 class(tabela@data)
 
 #------
-tabela@data <- sp@data[,'species',drop=F]
+tabela@data <- sp@data[,'species',drop=F]# deu erro com essa. rodei sem
 
 pseudo@data$species <- 0
 pseudo@data <- pseudo@data[,'species',drop=F]
@@ -98,16 +98,20 @@ head(test)
 
 d <- sdmData(species ~ .,train=df)#Creates a sdmdata objects that holds species (single or multiple) and explanatory variates
 d
+write.sdm(d,'Results/sdm4/datObject.sdd', overwrite = TRUE) # save the sdm object
+
+d =  read.sdm('Results/sdm4/datObject.sdd')
+d
 
 #-------
-
+getmethodNames()
 m <- sdm(species~.,data=d,methods=c('glm','brt','rf', 'maxent', 'svm', 'gam'),#fit using 3 models
          replication=c('sub','boot','cv'),n=1,test.p=30,cv.folds=5,#evaluates using 1 run 'n=1' of subsampling and bootsrapping methods plus 5-folds of cross-validation replication methods, taking 30 percent as test
          modelSettings=list(brt=list(n.trees=2000,shrinkage=0.01)))#override the default settings for the method brt
 m #the models explained less than 40% of deviance
 # parallel::detectCores() to check the number of cores
-write.sdm(m,'Results/sdm1/modelObject.sdm', overwrite = TRUE) # save the sdm object
-m <- read.sdm('Results/sdm1/modelObject.sdm') # read the saved sdm object
+write.sdm(m,'Results/sdm4/modelObject.sdm', overwrite = TRUE) # save the sdm object
+m <- read.sdm('Results/sdm4/modelObject.sdm') # read the saved sdm object
 roc(m)#Plot the Receiver Operating Characteristics (ROC) curve with AUC statistic in the legend.
 dev.off()#provide control over multiple graphics devices
 getVarImp(m,10)#calculates relative importance of different variables in the models using several approaches
@@ -117,7 +121,7 @@ getModelInfo(m)#returns a data.frame summarising some information relevant to th
 
 rcurve(m,id=1)#Calculate the response of species to the range of values in each predictor variable based on the fitted models in a sdmModels object, in this case 'id=1' is 'modelID=1', which is glm subsampling.
 #------------
-p <- predict(m, preds, filename='Results/sdm1/predict_sdm.img')#'predict' make a Raster or matrix object (depending on input dataset) with predictions from one or several fitted models in sdmModels object
+p <- predict(m, preds, filename='Results/sdm4/predict_sdm.img')#'predict' make a Raster or matrix object (depending on input dataset) with predictions from one or several fitted models in sdmModels object
 p
 getZ(p)#Initial functions for a somewhat more formal approach to get or set z values (e.g. time) associated with layers of Raster* objects.
 plot(p[[1:4]])#ploting the first 4 models
@@ -130,20 +134,20 @@ plot(p[[31:34]])#ploting 4 models cv for svm
 p[[1]][1000]##model 1 x 1000???
 
 #------
-en <- ensemble(m, preds, filename='ensemble_sdm.img',
+en <- ensemble(m, preds, filename='Results/sdm4/ensemble_sdm.img',
                setting=list(method='weighted',stat='TSS',opt=2))#Make a Raster object with a weighted averaging over all predictions from several fitted model in a sdmModel object: ensemble using weighted averaging based on TSS statistic # and optimum threshold critesion 2 (i.e., Max(spe+sen))
 plot(en)
 #########
 # to find out which models have TSS >= 0.6
 ev <- getEvaluation(m,stat='TSS',opt=2)#evaluates for accuracy, in this case extract the value of TSS, 'opt' is a numeric value that indicates which threshold optimisation criteria should be considered if a threshold-based statistic is selected in stat. The possible value can be between 1 to 10 for "sp=se", "max(se+sp)", "min(cost)", "minROCdist", "max(kappa)", "max(ppv+npv)", "ppv=npv", "max(NMI)", "max(ccr)", "prevalence" criteria, respectively.
 ev
-id <- ev$modelID[which(ev$TSS >= 0.6)]#selecting models with TSS > 0.6
+id <- ev$modelID[which(ev$TSS >= 0.8)]#selecting models with TSS > 0.8
 # we run ensemble by incorporating the models with TSS >= 0.6:
-en2 <- ensemble(m, preds, filename='ensemble2_sdm.img',
+en2 <- ensemble(m, preds, filename='Results/sdm4/ensemble2_sdm.img',
                setting=list(id=id,method='weighted',stat='TSS',opt=2))#repeating ensemble only with models TSS > 0.6 (object 'id')  
 plot(en2)
 df$species
-e <- evaluates(df$species,extract(en2,df[,c('x','y')]))#evaluates for accuracy
+e <- evaluates(df$species,extract(en2,df[,c('x','y')]))#evaluates for accuracy, but did not run because of lack of 'x' and 'y' columns
 e@statistics#accessing statistics
 e@threshold_based$threshold[2]#accessing the threshold
 m
