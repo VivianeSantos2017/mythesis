@@ -248,7 +248,7 @@ Error in o[[id[j]]] : subscript out of bounds
 REPETIR ANÁLISE DE CORREL AUMENTANDO TH PARA 0.85 PARA VERIFICAR SE BAT SAI E/OU VARIÁVEI COM BX CONTRIBUIÇÃO
 Não, mantém a saída da Temperatura, tal como o th = 0.8
 
-4.g.3) sdm2c: retirando TPI, TRI, CO2, river, FlowDir, aspect. VIF manda tirar as Temperatura e Light Min, mas as mantive.
+4.g.3) sdm2c: retirando TPI, TRI, CO2, river, FlowDir, aspect. VIF manda tirar as Temperaturas e Light Min, mas as mantive.
 
 Manteve deviance parecida, com máx para o maxent (0.39)
 
@@ -257,6 +257,11 @@ Error in GDAL.close(new.obj) :
 	GDAL Error 3: Failed to write 843 bytes HFAEntry ProjectionX(Eprj_MapProjection842) data, out of disk space?
 
 Deletei pasta sdm2 e rodei de novo, mas deu mesmo erro
+
+4.g.4) sdm2d: retirando BAT. VIF manda tirar as Temperaturas e Light Min, mas as mantive.
+
+Manteve deviance parecida, com máxs para glm (0.47) e maxent (0.39). % de contribuição total reduziu com saída da batimetria.
+Deu erro na funcao predict. FALTA DE ESPAÇO MESMO DELETANDO TODAS AS SUBPASTAS DE TESTES ANTERIORES. CHECAR COM BRUNO.
 
 4.h) Mais testes em bx para verificar se % contribuicao e deviance aumentam
 
@@ -267,13 +272,16 @@ Error in `[.data.frame`(df, , c("x", "y")) : undefined columns selected
 Nao tem as colunas 'x' e 'y'. Onde se perderam? Faltou atribuir?
 
 4.i) Testes com mesmas variaveis do  sdm2c (4.g.3) em alta no ModleR com glm, maxent, rf, svm, brt
-
-De 1.30pm até 6:45pm (do-many), de 28/01/20
 Warning message:
 glm.fit: fitted probabilities numerically 0 or 1 occurred
-ESCOLHER OS MELHORES MODELOS PARA RODAR FINAL MODEL E ENSEMBLE. 
-No Azure está em Documents/rhodolith/modelos/modleR
-No lap top está em C:\Viviane\Doutorado\Tese\mythesis\Results\modleR_4.i
+
+Resultados salvos em C:\Viviane\Doutorado\Tese\mythesis\Results\4.i_modleR_AA
+
+4.j) Testes com mesmas variaveis do  sdm2c (4.g.3) em BAIXA no ModleR com glm, maxent, rf, svm, brt (A FAZER)
+IPC:
+Rodar modleR em bx para verificar se da diferenca nos modelos
+Rodar sdm2c e sdm2d em baixa tambem
+
 
 
 5) Scripts/
