@@ -263,6 +263,8 @@ Deletei pasta sdm2 e rodei de novo, mas deu mesmo erro
 Manteve deviance parecida, com máxs para glm (0.47) e maxent (0.39). % de contribuição total reduziu com saída da batimetria.
 Deu erro na funcao predict. FALTA DE ESPAÇO MESMO DELETANDO TODAS AS SUBPASTAS DE TESTES ANTERIORES. CHECAR COM BRUNO.
 
+REPETI COM GLM JUST TO CHECK E RODOU TUDO. PAROU NO COMANDO DA LINHA 152 PQ OBJETO 'df' NAO TEM LON LAT. CHECAR!
+
 4.h) Mais testes em bx para verificar se % contribuicao e deviance aumentam
 
 sdm3 (sem as variaveis de batimetria): Não aumenta, reduz um pouco até.
@@ -280,7 +282,10 @@ Resultados salvos em C:\Viviane\Doutorado\Tese\mythesis\Results\4.i_modleR_AA
 4.j) Testes com mesmas variaveis do  sdm2c (4.g.3) em BAIXA no ModleR com glm, maxent, rf, svm, brt (A FAZER)
 IPC:
 Rodar modleR em bx para verificar se da diferenca nos modelos
-Rodar sdm2c e sdm2d em baixa tambem
+Rodar sdm2c e sdm2d em baixa tambem E RESOLVER O ERRO ABAIXO PARA TERMINAR DE RODAR sdm2d_glm NO AZURE
+Error in `[.data.frame`(df, , c("x", "y")) : undefined columns selected
+Nao tem as colunas 'x' e 'y'. Onde se perderam? Faltou atribuir?
+
 
 
 
