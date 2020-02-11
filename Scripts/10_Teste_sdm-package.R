@@ -17,7 +17,7 @@ plot(rhodo)
 #Alternatively, enter direct with .csv
 tabela <- read.csv("Data/Tabela/sdmdata_AA_sdm.csv", h = T, sep = ";", dec = ".")#function shapefile did not run because of missing .prj file
 tabela
-coordinates(tabela) = ~X+Y 
+coordinates(tabela) = ~lon+lat 
 CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0")
 
 str(tabela)
@@ -39,10 +39,10 @@ lst <- list.files(pasta, pattern='.tif', full.names = TRUE)
 lst
 preds <- stack(lst)
 preds
-plot(preds[[8]])
+plot(preds[[1]])
 points(sp)
 
-pseudo = sampleRandom(preds[[8]], 6000, sp=T)#creating pseudoabsences
+pseudo = sampleRandom(preds[[1]], 6000, sp=T)#creating pseudoabsences
 points(pseudo, col='blue')#ploting pseudoabsences
 
 head(tabela)
@@ -71,6 +71,7 @@ ex <- extract(preds,rhodoPA)
 head(ex)
 class(ex)
 ex <- data.frame(ex)
+head(ex)
 
 #--------
 library(usdm)
@@ -84,7 +85,7 @@ preds <- exclude(preds, v1)
 #------------
 head(sp)
 
-df = data.frame(ex, species=rhodoPA$species)
+df = data.frame(ex, species=rhodoPA$species, x = rhodoPA$lon, y = rhodoPA$lat)
 
 nrow(df)
 nrow(df)*70/100
@@ -98,9 +99,9 @@ head(test)
 
 d <- sdmData(species ~ .,train=df)#Creates a sdmdata objects that holds species (single or multiple) and explanatory variates
 d
-write.sdm(d,'Results/sdm4/datObject.sdd', overwrite = TRUE) # save the sdm object
+write.sdm(d,'Results/4.g.5_sdm2cBX/datObject.sdd', overwrite = TRUE) # save the sdm object
 
-d =  read.sdm('Results/sdm4/datObject.sdd')
+d =  read.sdm('Results/4.g.5_sdm2cBX/datObject.sdd')
 d
 
 #-------
@@ -110,8 +111,8 @@ m <- sdm(species~.,data=d,methods=c('glm','brt','rf', 'maxent', 'svm', 'gam'),#f
          modelSettings=list(brt=list(n.trees=2000,shrinkage=0.01)))#override the default settings for the method brt
 m #the models explained less than 40% of deviance
 # parallel::detectCores() to check the number of cores
-write.sdm(m,'Results/sdm4/modelObject.sdm', overwrite = TRUE) # save the sdm object
-m <- read.sdm('Results/sdm4/modelObject.sdm') # read the saved sdm object
+write.sdm(m,'Results/4.g.5_sdm2cBX/modelObject.sdm', overwrite = TRUE) # save the sdm object
+m <- read.sdm('Results/4.g.5_sdm2cBX/modelObject.sdm') # read the saved sdm object
 roc(m)#Plot the Receiver Operating Characteristics (ROC) curve with AUC statistic in the legend.
 dev.off()#provide control over multiple graphics devices
 getVarImp(m,10)#calculates relative importance of different variables in the models using several approaches
@@ -119,9 +120,9 @@ plot(getVarImp(m,10))# if be put in plot function, a barplot is generated
 
 getModelInfo(m)#returns a data.frame summarising some information relevant to the fitted models including modelID, method name, whether the model is fitted successfully, whether and what replication procedure is used for data partitioning, etc. getModelInfo helps to get the unique model IDs for all or certain models given the parameters that users specify.
 
-rcurve(m,id=1)#Calculate the response of species to the range of values in each predictor variable based on the fitted models in a sdmModels object, in this case 'id=1' is 'modelID=1', which is glm subsampling.
+rcurve(m,id=24)#Calculate the response of species to the range of values in each predictor variable based on the fitted models in a sdmModels object, in this case 'id=1' is 'modelID=1', which is glm subsampling.
 #------------
-p <- predict(m, preds, filename='Results/sdm4/predict_sdm.img')#'predict' make a Raster or matrix object (depending on input dataset) with predictions from one or several fitted models in sdmModels object
+p <- predict(m, preds, filename='Results/4.g.5_sdm2cBX/predict_sdm.img')#'predict' make a Raster or matrix object (depending on input dataset) with predictions from one or several fitted models in sdmModels object
 p
 getZ(p)#Initial functions for a somewhat more formal approach to get or set z values (e.g. time) associated with layers of Raster* objects.
 plot(p[[1:4]])#ploting the first 4 models
@@ -134,7 +135,7 @@ plot(p[[31:34]])#ploting 4 models cv for svm
 p[[1]][1000]##model 1 x 1000???
 
 #------
-en <- ensemble(m, preds, filename='Results/sdm4/ensemble_sdm.img',
+en <- ensemble(m, preds, filename='Results/4.g.5_sdm2cBX/ensemble_sdm.img',
                setting=list(method='weighted',stat='TSS',opt=2))#Make a Raster object with a weighted averaging over all predictions from several fitted model in a sdmModel object: ensemble using weighted averaging based on TSS statistic # and optimum threshold critesion 2 (i.e., Max(spe+sen))
 plot(en)
 #########
@@ -143,19 +144,20 @@ ev <- getEvaluation(m,stat='TSS',opt=2)#evaluates for accuracy, in this case ext
 ev
 id <- ev$modelID[which(ev$TSS >= 0.8)]#selecting models with TSS > 0.8
 # we run ensemble by incorporating the models with TSS >= 0.6:
-en2 <- ensemble(m, preds, filename='Results/sdm4/ensemble2_sdm.img',
+en2 <- ensemble(m, preds, filename='Results/4.g.5_sdm2cBX/ensemble2_sdm.img',
                setting=list(id=id,method='weighted',stat='TSS',opt=2))#repeating ensemble only with models TSS > 0.6 (object 'id')  
 plot(en2)
 df$species
-e <- evaluates(df$species,extract(en2,df[,c('x','y')]))#evaluates for accuracy, but did not run because of lack of 'x' and 'y' columns
+e <- evaluates(df$species,extract(en2,df[,c('x','y')]))#evaluates for accuracy
 e@statistics#accessing statistics
-e@threshold_based$threshold[2]#accessing the threshold
+e@threshold_based$threshold[2]#accessing the threshold max (se+sp)
 m
 pa <- en2
-pa[] <- ifelse(en2[] > 0.273647,1,0)#selectig presence area according threshold
+pa[] <- ifelse(en2[] > 0.3804654,1,0)#selectig presence area according threshold (0.3804654)
 plot(pa)#ploting presence area
 #-----------------
-m@models$species$glm$`1`@evaluation$test.dep@threshold_based#evaluation of glm models
+m@models$species$glm$`1`@evaluation$test.dep@threshold_based#evaluation of glm models, '1' is the first ID glm model. brt is '8', rf '15', maxent '22', svm '29', and gam '36'
+
 ev2 <- getEvaluation(m,stat=c('AUC','COR','TSS','Sens','spe'),opt=2)# evaluation of all models considering AUC, COR, TSS, sensitivity and specificity
 ev2
 
