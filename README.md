@@ -263,7 +263,11 @@ Deletei pasta sdm2 e rodei de novo, mas deu mesmo erro
 Manteve deviance parecida, com máxs para glm (0.47) e maxent (0.39). % de contribuição total reduziu com saída da batimetria.
 Deu erro na funcao predict. FALTA DE ESPAÇO MESMO DELETANDO TODAS AS SUBPASTAS DE TESTES ANTERIORES. CHECAR COM BRUNO.
 
-REPETI COM GLM JUST TO CHECK E RODOU TUDO. PAROU NO COMANDO DA LINHA 152 PQ OBJETO 'df' NAO TEM LON LAT. CHECAR!
+REPETI COM GLM JUST TO CHECK E RODOU TUDO. PAROU NO COMANDO DA LINHA 152 PQ OBJETO 'df' NAO TEM LON LAT. Corrigido o objeto 'df' no script 10, com comando para adicionar também lon e lat ao objeto.
+
+4.g.5) sdm2c em baixa: retirando TPI, TRI, CO2, river, FlowDir, aspect. VIF manda tirar as Temperaturas e Light Min, mas as mantive.
+
+Manteve deviance parecida, exceto para maxent que dimunuiu  de 0.39 para 0.26. % de contribuição total reduziu para batimetria, calcita a CVmax e aumentou para Light_Min e Sal_Min. Script rodou 100% após correção do objeto 'df'.
 
 4.h) Mais testes em bx para verificar se % contribuicao e deviance aumentam
 
@@ -282,7 +286,9 @@ Resultados salvos em C:\Viviane\Doutorado\Tese\mythesis\Results\4.i_modleR_AA
 4.j) Testes com mesmas variaveis do  sdm2c (4.g.3) em BAIXA no ModleR com glm, maxent, rf, svm, brt (A FAZER)
 IPC:
 Rodar modleR em bx para verificar se da diferenca nos modelos
-Rodar sdm2c e sdm2d em baixa tambem E RESOLVER O ERRO ABAIXO PARA TERMINAR DE RODAR sdm2d_glm NO AZURE
+Rodar sdm2c e sdm2d em baixa tambem 
+
+E RESOLVER O ERRO ABAIXO PARA TERMINAR DE RODAR sdm2d_glm NO AZURE
 Error in `[.data.frame`(df, , c("x", "y")) : undefined columns selected
 Nao tem as colunas 'x' e 'y'. Onde se perderam? Faltou atribuir?
 
