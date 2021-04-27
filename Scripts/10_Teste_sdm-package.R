@@ -9,6 +9,7 @@ library(sdm)
 installAll()
 library(rgdal)
 library(raster)
+library(sdmvspecies)
 #----------
 rhodo = readOGR("Data/Shape/Rodolitos_pontos.shp", encoding = "UTF-8")#testing shape, but to work I have to add a column "Occurrence"
 rhodo
@@ -37,9 +38,16 @@ pasta = "Data/TIFF/Selecao_AA/"#OR for tests with low res rasters
 
 lst <- list.files(pasta, pattern='.tif', full.names = TRUE)
 lst
-preds <- stack(lst)
-preds
+predictors <- stack(lst)
+predictors
+plot(predictors[[1]])
+
+#rescaling preditoras
+preds = rescale(predictors)
 plot(preds[[1]])
+names(preds)####deu erro, peguei objeto 'preditoras2' do script de TesteModleR2_ensemble
+
+
 points(sp)
 
 pseudo = sampleRandom(preds[[1]], 6000, sp=T)#creating pseudoabsences
@@ -53,7 +61,6 @@ class(tabela)
 class(tabela@data)
 
 #------
-tabela@data <- sp@data[,'species',drop=F]# deu erro com essa. rodei sem
 
 pseudo@data$species <- 0
 pseudo@data <- pseudo@data[,'species',drop=F]
@@ -99,9 +106,8 @@ head(test)
 
 d <- sdmData(species ~ .,train=df)#Creates a sdmdata objects that holds species (single or multiple) and explanatory variates
 d
-write.sdm(d,'Results/4.g.5_sdm2cBX/datObject.sdd', overwrite = TRUE) # save the sdm object
-
-d =  read.sdm('Results/4.g.5_sdm2cBX/datObject.sdd')
+write.sdm(d,'Results/sdm6/datObject.sdd', overwrite = TRUE) # save the sdm object
+d =  read.sdm('Results/sdm6/datObject.sdd')
 d
 
 #-------
@@ -111,18 +117,18 @@ m <- sdm(species~.,data=d,methods=c('glm','brt','rf', 'maxent', 'svm', 'gam'),#f
          modelSettings=list(brt=list(n.trees=2000,shrinkage=0.01)))#override the default settings for the method brt
 m #the models explained less than 40% of deviance
 # parallel::detectCores() to check the number of cores
-write.sdm(m,'Results/4.g.5_sdm2cBX/modelObject.sdm', overwrite = TRUE) # save the sdm object
-m <- read.sdm('Results/4.g.5_sdm2cBX/modelObject.sdm') # read the saved sdm object
+write.sdm(m,'Results/sdm6/modelObject.sdm', overwrite = TRUE) # save the sdm object
+m <- read.sdm('Results/4.h.2_sdm4/modelObject.sdm') # read the saved sdm object
 roc(m)#Plot the Receiver Operating Characteristics (ROC) curve with AUC statistic in the legend.
 dev.off()#provide control over multiple graphics devices
-getVarImp(m,10)#calculates relative importance of different variables in the models using several approaches
-plot(getVarImp(m,10))# if be put in plot function, a barplot is generated
+getVarImp(m,30)#calculates relative importance of different variables in the models using several approaches
+plot(getVarImp(m,30))# if be put in plot function, a barplot is generated
 
 getModelInfo(m)#returns a data.frame summarising some information relevant to the fitted models including modelID, method name, whether the model is fitted successfully, whether and what replication procedure is used for data partitioning, etc. getModelInfo helps to get the unique model IDs for all or certain models given the parameters that users specify.
 
-rcurve(m,id=24)#Calculate the response of species to the range of values in each predictor variable based on the fitted models in a sdmModels object, in this case 'id=1' is 'modelID=1', which is glm subsampling.
+rcurve(m,id=25)#Calculate the response of species to the range of values in each predictor variable based on the fitted models in a sdmModels object, in this case 'id=1' is 'modelID=1', which is glm subsampling.
 #------------
-p <- predict(m, preds, filename='Results/4.g.5_sdm2cBX/predict_sdm.img')#'predict' make a Raster or matrix object (depending on input dataset) with predictions from one or several fitted models in sdmModels object
+p <- predict(m, preds, filename='Results/sdm6/predict.img')#'predict' make a Raster or matrix object (depending on input dataset) with predictions from one or several fitted models in sdmModels object
 p
 getZ(p)#Initial functions for a somewhat more formal approach to get or set z values (e.g. time) associated with layers of Raster* objects.
 plot(p[[1:4]])#ploting the first 4 models

@@ -283,16 +283,32 @@ glm.fit: fitted probabilities numerically 0 or 1 occurred
 
 Resultados salvos em C:\Viviane\Doutorado\Tese\mythesis\Results\4.i_modleR_AA
 
-4.j) Testes com mesmas variaveis do  sdm2c (4.g.3) em BAIXA no ModleR com glm, maxent, rf, svm, brt (A FAZER)
+4.j) Testes com mesmas variaveis do  sdm2c (4.g.3) em BAIXA no ModleR com glm, maxent, rf, svm, brt
 IPC:
-Rodar modleR em bx para verificar se da diferenca nos modelos
+Rodar modleR em bx para verificar se da diferenca nos modelos: DEU DIFERENÇA, EM ALTA RESOLUCAO A ÁREA PREDITA FOI MAIOR E A INCERTEZA MENOR
 Rodar sdm2c e sdm2d em baixa tambem 
 
-E RESOLVER O ERRO ABAIXO PARA TERMINAR DE RODAR sdm2d_glm NO AZURE
-Error in `[.data.frame`(df, , c("x", "y")) : undefined columns selected
-Nao tem as colunas 'x' e 'y'. Onde se perderam? Faltou atribuir?
+4.k) Testes com mesmas variaveis do  sdm2c (4.g.3) em BAIXA no ModleR com glm, maxent, rf, svm, brt sem batimetria para ver se dá diferença
+DIFERENÇA NA ÁREA PREDITA, SEM BATIMETRIA A ÁREA PREDITA EM BX FICOU UM POUCO MAIOR DO QUE COM BATIMETRIA. DE MANEIRA GERAL, REDUZIU BASTANTE A INCERTEZA.
 
+4.l) Teste com sdm2d no Azure, só passou a função predict quando deixei somente com um modelo (glm), escrever para Babaki pedindo ajuda
 
+4.m) Teste modleR baixa com variáveis que melhor explicaram de acordo com testes anteriores, na versao do branch development e aplicando rescale por conta da batimetria
+
+4.n) Teste sdm5 (corrigir qdo renomear a pasta sdm4 em teste) em baixa com variáveis que melhor explicaram de acordo com testes anteriores e aplicando 'rescale' por conta da batimetria
+Deu erro na funcao predict: Error in .generateWLP(x = object, newdata = newdata, w = w, species = species,  : 
+  the data does not contain some or all of the variables that the model needs...
+
+4.o) Teste sdm6 em baixa com todas as variáveis para verificar se há alteração na importancia das variaveis e deviance devido ao 'rescale'
+Batimetria continua sendo a 2a mais importante. A 1a é Luz mínima. Entraram lat e lon no gráfico VarImp. Mesmo erro acima na função 'predict'. Alguma coisa mudou no pacote, checar documentação e com Babaki.
+
+4.p) Teste modleR baixa com variáveis que melhor explicaram nos testes anteriores, aplicando 'rescale' sem BAT e salvando arquivos rda.
+
+4.q) Teste modleR baixa com variáveis que melhor explicaram nos testes anteriores, aplicando 'rescale' com BAT e salvando arquivos rda.
+
+4.r) Teste modleR baixa com todas as variáveis sem selecao, aplicando 'rescale' e salvando arquivos rda.
+
+4.s) Teste modleR baixa com todas as variáveis com selecao, aplicando 'rescale' e salvando arquivos rda.
 
 
 5) Scripts/

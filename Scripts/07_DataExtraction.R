@@ -17,6 +17,38 @@ tail(tabela)
 colnames(tabela)
 
 #listando os arquivos tif da pasta SELECAO
+lista = list.files(path = "Data/TIFF/Selecao_AA/",
+                   pattern = ".tif",#aqui digo quero so os arquivos com extensao tif
+                   full.names = TRUE) #da o caminho completo dos arquivos
+lista #criado um vetor de caracteres, para importar tudo de 1 vez so
+
+#importando direto os arquivos para o stack
+abio = stack(lista)
+abio
+
+#Extraindo os valores das variaveis para os registros de rodolitos
+
+valores = extract(abio, tabela[ , c("lon","lat")])#selecionando as colunas X e Y, pois so preciso da lat e long
+head(valores)
+
+abiorodolitos = cbind(tabela, valores)#unindo os valores a tabela original dos pontos
+abiorodolitos
+head(abiorodolitos)
+tail(abiorodolitos)
+
+#Exportando tabela dos pontos com os dados extraidos dos rasters
+write.table(abiorodolitos, "Data/Tabela/AbioRodoCalcBottom.csv", sep = ";", dec = ".")
+
+##Agora o mesmo para a tabela de ausencias de rodolitos
+
+tabela = read.table("Data/Tabela/PresencaRodolitos.csv", header = T, sep = ";", dec=".")
+tabela
+head(tabela)
+tail(tabela)
+
+colnames(tabela)
+
+#listando os arquivos tif da pasta SELECAO
 lista = list.files(path = "Data/TIFF/Selecao/",
                    pattern = ".tif",#aqui digo quero so os arquivos com extensao tif
                    full.names = TRUE) #da o caminho completo dos arquivos
@@ -37,4 +69,5 @@ head(abiorodolitos)
 tail(abiorodolitos)
 
 #Exportando tabela dos pontos com os dados extraidos dos rasters
-write.table(abiorodolitos, "Data/Tabela/AbioRodolitos.csv", sep = ";", dec = ".")
+write.table(abiorodolitos, "Data/Tabela/AbioRodolitos2.csv", sep = ";", dec = ".")
+

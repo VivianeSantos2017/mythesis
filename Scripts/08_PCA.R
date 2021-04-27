@@ -22,7 +22,7 @@ library(factoextra)
 library(ggplot2)
 
 #lendo a tabela base
-rodolitos <- read.csv("Data/Tabela/AbioRodolitos.csv", sep = ";")
+rodolitos <- read.csv("Data/Tabela/AbioRodoCalcBottom.csv", sep = ";")
 head(rodolitos)
 tail(rodolitos)
 str(rodolitos)
@@ -36,7 +36,7 @@ write.table(resumo, "Data/Tabela/ResumoAbioRodolitos.csv", sep = ";", dec = ".")
 
 colnames(rodolitos)
 
-vars = rodolitos[,c(8:55)]
+vars = rodolitos[,c(8:21)]
 correl = cor(vars)
 correl #veio tudo NA, pois a planilha tinha muitas linhas NA
 
