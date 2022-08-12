@@ -1,0 +1,75 @@
+─ Session info ──────────────────────────────────────────────────────────────────────────────
+ setting  value                       
+ version  R version 3.6.1 (2019-07-05)
+ os       Ubuntu 18.04.3 LTS          
+ system   x86_64, linux-gnu           
+ ui       RStudio                     
+ language (EN)                        
+ collate  C.UTF-8                     
+ ctype    C.UTF-8                     
+ tz       Etc/UTC                     
+ date     2020-07-29                  
+
+─ Packages ──────────────────────────────────────────────────────────────────────────────────
+ package      * version   date       lib source                             
+ assertthat     0.2.1     2019-03-21 [1] CRAN (R 3.6.1)                     
+ bibtex         0.4.2.2   2020-01-02 [1] CRAN (R 3.6.1)                     
+ cli            2.0.2     2020-02-28 [1] CRAN (R 3.6.1)                     
+ codetools      0.2-16    2018-12-24 [4] CRAN (R 3.5.2)                     
+ colorspace     1.4-1     2019-03-18 [1] CRAN (R 3.6.1)                     
+ crayon         1.3.4     2017-09-16 [1] CRAN (R 3.6.1)                     
+ data.table     1.12.8    2019-12-09 [1] CRAN (R 3.6.1)                     
+ dismo          1.1-4     2017-01-09 [1] CRAN (R 3.6.1)                     
+ dplyr        * 1.0.0     2020-05-29 [1] CRAN (R 3.6.1)                     
+ ellipsis       0.3.1     2020-05-15 [1] CRAN (R 3.6.1)                     
+ fansi          0.4.1     2020-01-08 [1] CRAN (R 3.6.1)                     
+ foreach        1.5.0     2020-03-30 [1] CRAN (R 3.6.1)                     
+ gbm            2.1.8     2020-07-15 [1] CRAN (R 3.6.1)                     
+ gbRd           0.4-11    2012-10-01 [1] CRAN (R 3.6.1)                     
+ generics       0.0.2     2018-11-29 [1] CRAN (R 3.6.1)                     
+ glmnet         4.0-2     2020-06-16 [1] CRAN (R 3.6.1)                     
+ glue           1.4.1     2020-05-13 [1] CRAN (R 3.6.1)                     
+ iterators      1.0.12    2019-07-26 [1] CRAN (R 3.6.1)                     
+ kernlab        0.9-29    2019-11-12 [1] CRAN (R 3.6.1)                     
+ kuenm          1.1.5     2020-07-15 [1] Github (marlonecobos/kuenm@bd991b6)
+ lattice        0.20-38   2018-11-04 [4] CRAN (R 3.5.1)                     
+ lifecycle      0.2.0     2020-03-06 [1] CRAN (R 3.6.1)                     
+ magrittr       1.5       2014-11-22 [1] CRAN (R 3.6.1)                     
+ Matrix         1.2-17    2019-03-22 [4] CRAN (R 3.6.1)                     
+ maxnet         0.1.2     2017-02-11 [1] CRAN (R 3.6.1)                     
+ mnormt         1.5-6     2020-02-03 [1] CRAN (R 3.6.1)                     
+ modleR       * 0.0.1     2020-07-15 [1] Github (Model-R/modleR@961e6c3)    
+ munsell        0.5.0     2018-06-12 [1] CRAN (R 3.6.1)                     
+ nlme           3.1-141   2019-08-01 [4] CRAN (R 3.6.1)                     
+ pillar         1.4.6     2020-07-10 [1] CRAN (R 3.6.1)                     
+ pkgconfig      2.0.3     2019-09-22 [1] CRAN (R 3.6.1)                     
+ psych          1.9.12.31 2020-01-08 [1] CRAN (R 3.6.1)                     
+ purrr          0.3.4     2020-04-17 [1] CRAN (R 3.6.1)                     
+ R6             2.4.1     2019-11-12 [1] CRAN (R 3.6.1)                     
+ randomForest   4.6-14    2018-03-25 [1] CRAN (R 3.6.1)                     
+ raster       * 3.3-7     2020-06-27 [1] CRAN (R 3.6.1)                     
+ Rcpp           1.0.5     2020-07-06 [1] CRAN (R 3.6.1)                     
+ Rdpack         1.0.0     2020-07-01 [1] CRAN (R 3.6.1)                     
+ remotes        2.1.1     2020-02-15 [1] CRAN (R 3.6.1)                     
+ rgdal          1.5-12    2020-06-26 [1] CRAN (R 3.6.1)                     
+ rgeos          0.5-3     2020-05-08 [1] CRAN (R 3.6.1)                     
+ rJava          0.9-13    2020-07-06 [1] CRAN (R 3.6.1)                     
+ rlang          0.4.7     2020-07-09 [1] CRAN (R 3.6.1)                     
+ rstudioapi     0.11      2020-02-07 [1] CRAN (R 3.6.1)                     
+ scales         1.1.1     2020-05-11 [1] CRAN (R 3.6.1)                     
+ sdmvspecies  * 0.3.2     2015-12-30 [1] CRAN (R 3.6.1)                     
+ sessioninfo    1.1.1     2018-11-05 [1] CRAN (R 3.6.1)                     
+ shape          1.4.4     2018-02-07 [1] CRAN (R 3.6.1)                     
+ sp           * 1.4-2     2020-05-20 [1] CRAN (R 3.6.1)                     
+ stringi        1.4.6     2020-02-17 [1] CRAN (R 3.6.1)                     
+ stringr        1.4.0     2019-02-10 [1] CRAN (R 3.6.1)                     
+ survival       2.44-1.1  2019-04-01 [4] CRAN (R 3.6.1)                     
+ tibble         3.0.3     2020-07-10 [1] CRAN (R 3.6.1)                     
+ tidyselect     1.1.0     2020-05-11 [1] CRAN (R 3.6.1)                     
+ vctrs          0.3.2     2020-07-15 [1] CRAN (R 3.6.1)                     
+ withr          2.2.0     2020-04-20 [1] CRAN (R 3.6.1)                     
+
+[1] /home/modleR/R/x86_64-pc-linux-gnu-library/3.6
+[2] /usr/local/lib/R/site-library
+[3] /usr/lib/R/site-library
+[4] /usr/lib/R/library
